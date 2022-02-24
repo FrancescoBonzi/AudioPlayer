@@ -1,0 +1,10 @@
+<div class="instr_container">
+    <div class="header">
+        <h1 itemprop="name">Instrumentalness</h1>
+    </div>
+    <div class="list-group">
+        {{#each songnames}}
+            <a href="/player?songname={{this}}" class="list-group-item list-group-item-action">{{this}}</a>
+        {{/each}}
+    </div>
+</div>

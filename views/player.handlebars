@@ -1,0 +1,47 @@
+<div class="instr_container">
+    <div class="header">
+        <h1 itemprop="name">Instrumentalness</h1>
+    </div>
+
+
+    <div id="demo">
+        {{#each annotations}}
+        <div class="song">
+        <h3>{{model_name}}</h3>
+        <p id="subtitle-{{@index}}" class="text-center text-info">&nbsp;</p>
+        <div id="wave-timeline-{{@index}}"></div>
+        <div id="waveform-{{@index}}">
+            <!-- Here be waveform -->
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn-primary btn-md" onclick="sync({{@index}})">Sync</button>
+                    <button class="btn btn-primary btn-md" data-action="play">
+                        <span class="span-to-get-id" id="play-{{@index}}">
+                            <i class="glyphicon glyphicon-play"></i>
+                            Play
+                        </span>
+
+                        <span id="pause-{{@index}}" style="display: none">
+                            <i class="glyphicon glyphicon-pause"></i>
+                            Pause
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    </div>
+</div>
+
+
+<script>
+    window.onload = function() {
+        {{#each annotations}}
+        loadAudioPlayer({{@index}}, "{{songname}}", "{{model_name}}", "{{annotation_file}}");
+        {{/each}}
+    };
+</script>
