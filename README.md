@@ -7,6 +7,7 @@ This tool allows you to visualize and compare some audio classification models. 
 
 To customize it you have to modify only the config.json file. The directory structure to comply with is the following:
 
+```
 -| annotation_dir
                 -| model_name_1
                               -| song_1.json
@@ -17,9 +18,11 @@ To customize it you have to modify only the config.json file. The directory stru
                               -| song2.json
                               -| ...
                 -| ...
-                
+```
+
 Each .json file must comply with the following structure:
 
+```
 [
   {
     "start": 0, 
@@ -39,12 +42,15 @@ Each .json file must comply with the following structure:
   }, 
   ...
 ]
+```
 
 The config.json file contains the following parameters:
 
+```
 {
   "app_name": name of the system (ex. Instrumentalness),
   "song_names": an array of the song names available, without the file extension,
   "annotation_dir": absolute path of annotation_dir folder,
   "audio_dir": absolute path of the folder with the audio file to listen to
 }
+```
