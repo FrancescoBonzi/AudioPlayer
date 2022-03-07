@@ -28,16 +28,14 @@ Each .json file have comply with the following structure:
     "start": 0, 
     "end": 24.79891156462585, 
     "data": {
-      "label": 
-      "instrumental"
+      "label": "instrumental"
     }
   }, 
   {
     "start": 24.822131519274375, 
     "end": 29.326802721088434, 
     "data": {
-      "label": 
-      "vocals"
+      "label": "vocals"
     }
   }, 
   ...
