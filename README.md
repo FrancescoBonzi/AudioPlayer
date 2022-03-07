@@ -3,7 +3,7 @@
 This tool allows you to visualize and compare some audio classification models. The screenshots below show how the audio player works.
 
 ![Screenshot 2022-03-07 at 10 43 02](https://user-images.githubusercontent.com/35273715/157010664-67791ac4-eabd-4cc3-a191-9da9b7a0edf8.png)
-![Screenshot 2022-03-07 at 10 42 30](https://user-images.githubusercontent.com/35273715/157010678-a1a49b9f-1c05-49cc-a961-f5cf96634548.png)
+![Screenshot 2022-03-07 at 11 23 22](https://user-images.githubusercontent.com/35273715/157013249-7692998b-89d1-4a7d-9b8a-5556a277fae0.png)
 
 To customize it you have to modify only the config.json file. The directory structure to comply with is the following:
 
