@@ -20,7 +20,7 @@ To customize it you have to modify only the config.json file. The directory stru
                 -| ...
 ```
 
-Each .json file must comply with the following structure:
+Each .json file have comply with the following structure:
 
 ```
 [
@@ -54,3 +54,10 @@ The config.json file contains the following parameters:
   "audio_dir": absolute path of the folder with the audio file to listen to
 }
 ```
+
+To run this application you have to:
+- Clone this repository
+- cd AudioPlayer
+- npm install
+- npm start
+
