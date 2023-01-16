@@ -54,7 +54,7 @@ function getSongNames() {
 }
 
 function getClasses() {
-    return config.labels
+    return config["labels"]
 }
 
 module.exports.getSongNames = getSongNames;
