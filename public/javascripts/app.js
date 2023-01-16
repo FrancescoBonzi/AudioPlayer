@@ -2,6 +2,20 @@
  * Create a WaveSurfer instance.
  */
 var wavesurfer = []; // eslint-disable-line no-var
+var classes = []
+const colors = ['rgba(116, 108, 76, 0.4)', 'rgba(129, 181, 95, 0.4)', 'rgba(78, 121, 229, 0.4)', 'rgba(154, 64, 224, 0.4)', 'rgba(185, 89, 22, 0.4)',
+                'rgba(168, 252, 126, 0.4)', 'rgba(62, 14, 39, 0.4)', 'rgba(226, 45, 120, 0.4)', 'rgba(208, 90, 37, 0.4)', 'rgba(183, 48, 0, 0.4)',
+                'rgba(171, 92, 167, 0.4)', 'rgba(29, 154, 234, 0.4)', 'rgba(91, 39, 198, 0.4)', 'rgba(139, 243, 193, 0.4)', 'rgba(232, 71, 136, 0.4)',
+                'rgba(42, 188, 98, 0.4)', 'rgba(144, 190, 109, 0.4)','rgba(249, 65, 68, 0.4)', 'rgba(249, 132, 74, 0.4)',  'rgba(39, 125, 161, 0.4)', 
+                'rgba(243, 114, 44, 0.4)', 'rgba(67, 170, 139, 0.4)', 'rgba(248, 150, 30, 0.4)', 'rgba(77, 144, 142, 0.4)', 'rgba(87, 117, 144, 0.4)']
+
+function getClasses() {
+    fetch("/getClasses")
+        .then(r => r.json())
+        .then(data => {
+            classes = data;
+    });
+}
      
 function loadAudioPlayer(index, songname, modelname, annotationpath) {
 
@@ -36,6 +50,7 @@ function loadAudioPlayer(index, songname, modelname, annotationpath) {
 
         /* Regions */
         wavesurfer[index].on('ready', function() {
+            console.log("ready to load annotations...")
             fetch("/getAnnotation?songname=" + annotationpath)
                 .then(r => r.json())
                 .then(data => {
@@ -74,15 +89,16 @@ function loadAudioPlayer(index, songname, modelname, annotationpath) {
  */
 function loadRegions(index, regions) {
     regions.forEach(function(region) {
-        console.log(region)
-        if(region.data.label == 'vocals') {
-            region.color = 'rgba(177, 215, 172, 0.5)'
-            region.data.label = 'VOCALS'
-        } else if(region.data.label == 'instrumental') {
-            region.color = 'rgba(167, 51, 63, 0.5)'
-            region.data.label = 'INSTRUMENTAL'
+        // while(classes.length == 0) {
+        //     console.log("Waiting for classes...")
+        // }
+        var color_index = classes.indexOf(region.data.label)
+        if(color_index >= 0) {
+            region.color = colors[color_index]
+            region.data.label = region.data.label.toUpperCase()
         } else { 
-            region.color = 'rgba(0, 0, 60, 0.1)'
+            random_ = Math.floor(Math.random() * 200);
+            region.color = 'rgba(' + random_ + ', 190, 109, 0.4)'
         }
         region.drag = false;
         region.resize = false;

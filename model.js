@@ -1,61 +1,62 @@
-var fs = require('fs').promises;
-var path = require('path');
-
-test_songs = [
-    "03 - Say me Good Bye",
-    "03 - School",
-    "03 - Si Dieu",
-    "03 - Une charogne",
-    "03 - castaway",
-    "04 - Believe",
-    "04 - Healing Luna",
-    "04 - Inside",
-    "04 - You are",
-    "05 - 05 LIrlandaise",
-    "05 - 16 ans",
-    "05 - 2003-Circonstances attenuantes part II",
-    "05 - A Poings Fermes",
-    "05 - Crepuscule",
-    "05 - Dance",
-    "05 - Elles disent"
-];
+const fs = require('fs').promises;
+const path = require('path');
+const config = require('./config.json');
 
 async function getModelAnnotations(songname, callback) {
     var annotation_models_res = [];
-    var root_instrumentalness = '/Users/francesco.bonzi/Documents/musixmatch-ai-audio/instrumentalness/';
-    fs.readdir(root_instrumentalness)
+    fs.readdir(config["annotation_dir"])
         .then(dirs => {
             dirs.forEach((item, index, array) => {
-                var model_dir = path.join(root_instrumentalness, item, 'annotations', songname + '.json');
-                fs.access(model_dir)
-                    .then(result => {
-                        console.log("OK" + model_dir);
+                var model_file_json = path.join(config["annotation_dir"], item, songname + '.json');
+                fs.access(model_file_json)
+                    .then(_ => {
                         annotation_models_res.push({
                             "songname": songname,
                             "model_name": dirs[index],
-                            "annotation_file": model_dir
+                            "annotation_file": model_file_json
                         });
-                        if (index == array.length-1) {
+                        if (index == array.length - 1) {
                             callback(annotation_models_res);
                             return;
                         }
                     })
                     .catch(err => {
-                        if (index == array.length-1) {
-                            callback(annotation_models_res);
-                            return;
-                        }
+                        console.error(err);
+                        callback(annotation_models_res);
+                        return;
                     })
-                });
-            })
+
+            });
+        })
         .catch(err => {
             console.log("An error occurred", err);
         })
 }
 
 function getSongNames() {
-    return test_songs;
+    if ("song_names" in config) {
+        return config["song_names"];
+    }
+    let song_names = [];
+    fs.readdir(config["audio_dir"])
+        .then(files => {
+            files.forEach((item, index, array) => {
+                var extension = item.split('.').pop();
+                if (["mp3", "ogg", "wav"].includes(extension)) {
+                    song_names.push(item.slice(0, -4));
+                }
+            })
+        })
+        .catch(err => {
+            console.log("An error occurred", err);
+        })
+    return song_names
+}
+
+function getClasses() {
+    return config.labels
 }
 
 module.exports.getSongNames = getSongNames;
 module.exports.getModelAnnotations = getModelAnnotations;
+module.exports.getClasses = getClasses;
