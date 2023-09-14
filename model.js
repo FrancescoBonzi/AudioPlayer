@@ -1,4 +1,5 @@
 const fs = require('fs').promises;
+const fs_sync = require('fs')
 const path = require('path');
 const config = require('./config.json');
 
@@ -53,8 +54,36 @@ function getSongNames() {
     return song_names
 }
 
+function extractLabelsFromJsonFiles(folderPath) {
+    const labels = new Set();
+    fs_sync.readdirSync(folderPath, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .forEach(dirent => {
+            const subFolderPath = path.join(folderPath, dirent.name);
+            fs_sync.readdirSync(subFolderPath, { withFileTypes: true })
+                .filter(dirent => dirent.isFile() && dirent.name.endsWith('.json'))
+                .forEach(dirent => {
+                    const filePath = path.join(subFolderPath, dirent.name);
+                    const fileContent = fs_sync.readFileSync(filePath, 'utf8');
+                    const jsonContent = JSON.parse(fileContent);
+                    jsonContent.forEach(item => {
+                        if (item.data && item.data.label) {
+                            labels.add(item.data.label);
+                        }
+                    });
+                });
+        });
+    return [...labels];
+}
+
 function getClasses() {
-    return config["labels"]
+    let labels
+    if ("lbels" in config) {
+        labels = config["labels"]
+    } else {
+        labels = extractLabelsFromJsonFiles(config["annotation_dir"])
+    }
+    return labels
 }
 
 module.exports.getSongNames = getSongNames;

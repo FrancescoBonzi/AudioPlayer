@@ -25,7 +25,7 @@ app.set('view engine', 'handlebars');
 //start server
 app.listen(app.get('port'), '127.0.0.1', function () {
   console.log('Instrumentalness Player started on http://127.0.0.1:' +
-      app.get('port') + '; press Ctrl-C to terminate.');
+    app.get('port') + '; press Ctrl-C to terminate.');
 });
 
 module.exports = app;

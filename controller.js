@@ -11,7 +11,7 @@ exports.dispatcher = function (app) {
   app.get('/player', function (req, res, next) {
     var songname = req.query.songname;
     model.getModelAnnotations(songname, annotations => {
-      if(annotations.length != 0) {
+      if (annotations.length != 0) {
         res.render('player', { "app_name": config.app_name, "songname": songname, "annotations": annotations });
       } else {
         console.log('No annotations available!');
@@ -26,7 +26,7 @@ exports.dispatcher = function (app) {
     fs.readdir(config["audio_dir"])
       .then(files => {
         files.forEach(file => {
-          if(file.startsWith(songname)) {
+          if (file.startsWith(songname)) {
             var ext = file.split('.').pop();
             var path = config["audio_dir"] + songname + '.' + ext;
             console.log(path);
